@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" href="data:," />
+<title>NanoVNA Season Price Table</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Serif:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f4f5f3;
+    --surface:#ffffff;
+    --surface-2:#eef0ec;
+    --ink:#131a1f;
+    --ink-2:#4a565e;
+    --ink-3:#6b7a82;
+    --line:#d9ddd6;
+    --line-strong:#b9c0b5;
+    --amber:#b45309;
+    --amber-bg:#fef3c7;
+    --amber-ink:#78350f;
+    --teal:#0f766e;
+    --teal-bg:#ccfbf1;
+    --teal-ink:#134e4a;
+    --orange:#c2410c;
+    --orange-bg:#ffedd5;
+    --green:#166534;
+    --green-bg:#dcfce7;
+    --radius:14px;
+    --radius-sm:9px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#0f1417;
+      --surface:#171e23;
+      --surface-2:#1e282e;
+      --ink:#eef2f0;
+      --ink-2:#b8c4c0;
+      --ink-3:#8a9a95;
+      --line:#2a363c;
+      --line-strong:#3d4e55;
+      --amber-bg:#3a2a0a;
+      --amber-ink:#fcd34d;
+      --teal-bg:#0f2e2a;
+      --teal-ink:#5eead4;
+      --orange-bg:#3a1e0e;
+      --green-bg:#142e1d;
+    }
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+  button,[role="button"],select,summary,input:not([type="checkbox"],[type="radio"]){min-height:2.25rem}
+  a{color:var(--teal);text-decoration-thickness:1px;text-underline-offset:2px}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 20px 56px}
+
+  /* Header */
+  .topbar{display:flex;justify-content:space-between;gap:16px;align-items:center;padding:18px 0 0;font-family:"IBM Plex Mono",monospace;font-size:.78rem;letter-spacing:.02em;color:var(--ink-2);flex-wrap:wrap}
+  .topbar strong{color:var(--ink);font-weight:600}
+  .hero{padding:28px 0 22px;display:grid;grid-template-columns:1.55fr .85fr;gap:28px;align-items:end}
+  @media(max-width:820px){.hero{grid-template-columns:1fr}}
+  h1{font-family:"IBM Plex Serif",Georgia,serif;font-size:clamp(2rem,5vw,3.4rem);line-height:.98;letter-spacing:-.02em;margin:0 0 14px;font-weight:700}
+  h1 em{font-style:normal;color:var(--orange)}
+  .lede{font-size:1.08rem;line-height:1.55;color:var(--ink-2);margin:0;max-width:640px}
+  .lede strong{color:var(--ink)}
+  .hero-card{background:var(--ink);color:#fff;border-radius:var(--radius);padding:20px 20px 18px;position:relative;overflow:hidden}
+  @media (prefers-color-scheme: dark){.hero-card{background:#e8ebe6;color:#131a1f}}
+  .hero-card::after{content:"";position:absolute;right:-30px;top:-30px;width:150px;height:150px;border:1.5px solid rgba(255,255,255,.22);border-radius:50%;box-shadow:0 0 0 18px rgba(255,255,255,.06),0 0 0 36px rgba(255,255,255,.04)}
+  @media (prefers-color-scheme: dark){.hero-card::after{border-color:rgba(0,0,0,.14);box-shadow:0 0 0 18px rgba(0,0,0,.05),0 0 0 36px rgba(0,0,0,.03)}}
+  .hero-card h2{margin:0 0 6px;font-size:.82rem;letter-spacing:.08em;text-transform:uppercase;font-family:"IBM Plex Mono",monospace;font-weight:600;opacity:.75}
+  .hero-card p{margin:0;font-size:1.02rem;line-height:1.45;font-weight:500;position:relative;z-index:1}
+  .hero-card p + p{margin-top:10px;font-size:.92rem;font-weight:400;opacity:.85}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:6px 0 22px}
+  @media(max-width:720px){.stats{grid-template-columns:repeat(2,1fr)}}
+  .stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px 14px 12px}
+  .stat b{display:block;font-family:"IBM Plex Mono",monospace;font-size:1.55rem;line-height:1;font-weight:600;letter-spacing:-.02em}
+  .stat span{display:block;margin-top:6px;font-size:.84rem;line-height:1.35;color:var(--ink-2)}
+  .stat b.orange{color:var(--orange)} .stat b.teal{color:var(--teal)}
+
+  /* Controls */
+  .controls{position:sticky;top:0;z-index:20;background:var(--bg);padding:12px 0 12px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:18px}
+  .controls-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+  .filters{display:flex;gap:8px;flex-wrap:wrap}
+  .chip{appearance:none;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);border-radius:999px;padding:8px 14px;font:600 .86rem "IBM Plex Sans",sans-serif;cursor:pointer;min-height:38px}
+  .chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  @media (prefers-color-scheme: dark){.chip[aria-pressed="true"]{background:#eef2f0;color:#131a1f}}
+  .search{flex:1;min-width:180px;max-width:280px}
+  .search input{width:100%;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);border-radius:999px;padding:9px 14px;font:400 .92rem "IBM Plex Sans",sans-serif;min-height:38px}
+  .count{font-size:.85rem;color:var(--ink-2);font-family:"IBM Plex Mono",monospace;white-space:nowrap}
+
+  /* Table desktop */
+  .table-shell{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+  table{width:100%;border-collapse:collapse;font-size:.94rem}
+  thead th{text-align:left;font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-2);font-weight:600;padding:14px 14px 12px;background:var(--surface-2);border-bottom:1px solid var(--line);vertical-align:bottom}
+  tbody td{padding:16px 14px;vertical-align:top;border-bottom:1px solid var(--line)}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover td{background:color-mix(in srgb, var(--surface-2) 55%, transparent)}
+  .model-name{font-weight:700;font-size:1.02rem;line-height:1.2;letter-spacing:-.01em}
+  .model-sub{font-size:.82rem;color:var(--ink-2);margin-top:3px;line-height:1.35}
+  .price{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:1rem;white-space:nowrap;letter-spacing:-.02em}
+  .price small{display:block;font-family:"IBM Plex Sans",sans-serif;font-weight:400;font-size:.8rem;color:var(--ink-2);white-space:normal;line-height:1.35;margin-top:2px;letter-spacing:0}
+  .price.predicted{color:var(--orange)}
+  .price.ali{color:var(--teal)}
+  .badge{display:inline-flex;align-items:center;gap:5px;font-size:.73rem;font-weight:700;letter-spacing:.02em;padding:4px 8px;border-radius:999px;margin-top:8px;white-space:nowrap}
+  .badge.watch{background:var(--orange-bg);color:var(--orange)}
+  .badge.flat{background:var(--surface-2);color:var(--ink-2);border:1px solid var(--line)}
+  .badge.import{background:var(--teal-bg);color:var(--teal-ink)}
+  .badge.best{background:var(--amber-bg);color:var(--amber-ink)}
+  .tip{font-size:.9rem;line-height:1.5;color:var(--ink-2);min-width:220px}
+  .tip strong{color:var(--ink)}
+  .delta{display:inline-block;margin-top:5px;font-family:"IBM Plex Mono",monospace;font-size:.78rem;font-weight:600;padding:2px 7px;border-radius:999px;background:var(--green-bg);color:var(--green)}
+  @media (prefers-color-scheme: dark){.delta{color:#86efac}}
+  .delta.neutral{background:var(--surface-2);color:var(--ink-2)}
+  .delta.big{background:var(--amber-bg);color:var(--amber-ink)}
+
+  /* Mobile cards */
+  @media(max-width:920px){
+    .table-shell{background:transparent;border:none;overflow:visible}
+    table,thead,tbody,tr,td{display:block;width:100%}
+    thead{display:none}
+    tbody{display:grid;gap:12px}
+    tbody tr{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:6px 2px;overflow:hidden}
+    tbody td{border:none;padding:10px 16px}
+    tbody td::before{content:attr(data-label);display:block;font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);font-weight:600;margin-bottom:4px}
+    tbody td.cell-model::before{display:none}
+    tbody td.cell-tip{background:var(--surface-2);margin:6px 10px 10px;border-radius:9px;padding:12px 12px}
+    tbody td.cell-tip::before{color:var(--ink-2)}
+    .tip{min-width:0}
+    .price{white-space:normal}
+  }
+
+  .empty{display:none;background:var(--surface);border:1px dashed var(--line-strong);border-radius:12px;padding:28px;text-align:center;color:var(--ink-2)}
+  .empty.show{display:block}
+
+  /* Below table */
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr}}
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px}
+  .panel h3{margin:0 0 10px;font-size:1.05rem;letter-spacing:-.01em}
+  .panel p,.panel li{font-size:.93rem;line-height:1.55;color:var(--ink-2)}
+  .panel p{margin:0 0 10px} .panel p:last-child{margin-bottom:0}
+  .panel ul{margin:0;padding-left:18px} .panel li{margin:6px 0}
+  .panel strong{color:var(--ink)}
+  .rule{display:flex;gap:14px;align-items:flex-start}
+  .rule-num{flex:0 0 52px;width:52px;height:52px;border-radius:50%;background:var(--orange);color:#fff;display:grid;place-items:center;font-family:"IBM Plex Mono",monospace;font-weight:700;font-size:1.2rem}
+  .insights{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+  @media(max-width:820px){.insights{grid-template-columns:1fr}}
+  .insight{border-top:3px solid var(--ink);padding-top:12px}
+  .insight:nth-child(2){border-top-color:var(--orange)} .insight:nth-child(3){border-top-color:var(--teal)}
+  .insight h4{margin:0 0 6px;font-size:.98rem} .insight p{margin:0;font-size:.9rem;line-height:1.55;color:var(--ink-2)}
+
+  .footnotes{margin-top:22px;border-top:1px solid var(--line);padding-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:8px 28px}
+  @media(max-width:720px){.footnotes{grid-template-columns:1fr}}
+  .footnotes p{margin:0;font-size:.84rem;line-height:1.55;color:var(--ink-2)}
+  .footnotes b{color:var(--ink)}
+  .present-note{margin-top:18px;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:.9rem;color:var(--ink-2);display:flex;gap:12px;flex-wrap:wrap;justify-content:space-between;align-items:center}
+  .present-note strong{color:var(--ink)}
+
+  @media print{
+    .controls{display:none}
+    body{background:#fff} .wrap{max-width:none;padding:0}
+    .table-shell{border:1px solid #999} .hero{grid-template-columns:1fr 1fr}
+  }
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <span><strong>NanoVNA</strong> &nbsp;·&nbsp; Price history 2023 to 2026</span>
+    <span>Amazon US via Keepa &nbsp;·&nbsp; Updated Nov 16, 2026</span>
+  </div>
+
+  <header class="hero">
+    <div>
+      <h1>What to actually pay for a NanoVNA <em>this season</em></h1>
+      <p class="lede">All-time lows, today&rsquo;s prices, and the best price you can realistically expect, for every model. The short version: <strong>Black Friday has produced exactly one sustained deal in three years.</strong> Most models never dip at all, and for two of them the real sale is Singles Day (11.11) on AliExpress, happening now.</p>
+    </div>
+    <aside class="hero-card" aria-label="Bottom line">
+      <h2>Bottom line for buyers</h2>
+      <p>Watch only two models for Black Friday: the LiteVNA 64 and the NanoVNA-H4. Everything else, buy when you need it or check AliExpress first.</p>
+      <p>Act-on prices: LiteVNA 64 at $169 or under. H4 at $85 or under, and only if it holds.</p>
+    </aside>
+  </header>
+
+  <section class="stats" aria-label="Key numbers">
+    <div class="stat"><b>19</b><span>model-years tracked across 3 Black Friday windows (Nov 20 to Dec 2)</span></div>
+    <div class="stat"><b class="orange">1</b><span>genuine sustained Black Friday discount in the whole family: LiteVNA 64 to $169 in 2023</span></div>
+    <div class="stat"><b>0</b><span>Black Friday dips, ever, for the H, SAA-2N, F V2 and F V3</span></div>
+    <div class="stat"><b class="teal">~$285</b><span>widest channel gap right now: LiteVNA 67 on AliExpress vs. its brand-new Amazon listing</span></div>
+  </section>
+
+  <div class="controls" role="region" aria-label="Filter the table">
+    <div class="controls-row">
+      <div class="filters" role="group" aria-label="Filter by advice">
+        <button class="chip" data-filter="all" aria-pressed="true">All 8 models</button>
+        <button class="chip" data-filter="watch" aria-pressed="false">Worth watching for BF</button>
+        <button class="chip" data-filter="import" aria-pressed="false">Better on AliExpress</button>
+        <button class="chip" data-filter="flat" aria-pressed="false">Buy anytime</button>
+      </div>
+      <label class="search"><span class="sr-only" style="position:absolute;left:-9999px">Search models</span><input id="q" type="search" placeholder="Search a model, e.g. LiteVNA" autocomplete="off"></label>
+      <span class="count" id="count">8 models</span>
+    </div>
+  </div>
+
+  <div class="table-shell">
+    <table id="priceTable">
+      <thead>
+        <tr>
+          <th scope="col" style="min-width:150px">Model</th>
+          <th scope="col">All-time low</th>
+          <th scope="col">Amazon: baseline &rarr; now</th>
+          <th scope="col">AliExpress now</th>
+          <th scope="col">Predicted best this season</th>
+          <th scope="col" style="min-width:240px">Top tip: how to get it</th>
+        </tr>
+      </thead>
+      <tbody id="tbody">
+        <!-- H -->
+        <tr data-cat="flat" data-search="nanovna-h h">
+          <td class="cell-model" data-label="Model">
+            <div class="model-name">NanoVNA-H</div>
+            <div class="model-sub">The original, 50 kHz to 1.5 GHz</div>
+            <span class="badge flat">Buy anytime</span>
+          </td>
+          <td data-label="All-time low"><span class="price">$45.59<small>Jun 23, 2026</small></span></td>
+          <td data-label="Amazon: baseline to now"><span class="price">$52.99<small>Baseline Nov 1: $52.99, unchanged today</small></span></td>
+          <td data-label="AliExpress now"><span class="price ali">~$48 to $51<small>At parity with Amazon, no real gap</small></span></td>
+          <td data-label="Predicted best"><span class="price predicted">~$49.99<small>Its usual churn bottom</small></span><span class="delta neutral">About 6% under now</span></td>
+          <td class="cell-tip" data-label="Top tip"><p class="tip" style="margin:0"><strong>Do not wait for Black Friday.</strong> Set an alert at $50 and buy any week it prints. It drifts $46 to $60 all year on seller churn and has never dipped for BF.</p></td>
+        </tr>
+
+        <!-- H4 -->
+        <tr data-cat="watch" data-search="nanovna-h4 h4 seesii">
+          <td class="cell-model" data-label="Model">
+            <div class="model-name">NanoVNA-H4</div>
+            <div class="model-sub">4-inch screen, tracked Seesii listing</div>
+            <span class="badge watch">Watch: flicker risk</span>
+          </td>
+          <td data-label="All-time low"><span class="price">$47.99*<small>Feb 3, 2024. See note below. Deepest buyable prints: $64.78 and $79.99 (2025 flickers)</small></span></td>
+          <td data-label="Amazon: baseline to now"><span class="price">$96.99<small>Baseline Nov 1: $96.99, unchanged today</small></span></td>
+          <td data-label="AliExpress now"><span class="price ali">~$68 to $84<small>One $67.69 print flagged lowest in 90 days. Zeenko store was $42.11 in Apr 2024</small></span></td>
+          <td data-label="Predicted best"><span class="price predicted">$79.99 flicker<small>Deep promo variant: $64 to $72. The $73 to $78 middle is least likely</small></span><span class="delta">Save ~$17 if it prints</span></td>
+          <td class="cell-tip" data-label="Top tip"><p class="tip" style="margin:0"><strong>Check several times a day, Nov 20 to 25, and buy inside the run.</strong> Last year $64.78 appeared 21 times but never longer than about 11 hours. $85 or under holding 3 days would be a first. Note: AliExpress already beats the predicted flicker today.</p></td>
+        </tr>
+
+        <!-- V2 SAA-2N -->
+        <tr data-cat="flat" data-search="nanovna v2 saa-2n saa2n">
+          <td class="cell-model" data-label="Model">
+            <div class="model-name">NanoVNA V2 <span style="font-weight:500;color:var(--ink-2)">(SAA-2N)</span></div>
+            <div class="model-sub">To 3 GHz, N connectors</div>
+            <span class="badge flat">Buy anytime</span>
+          </td>
+          <td data-label="All-time low"><span class="price">$89.99<small>Jan 18, 2024</small></span></td>
+          <td data-label="Amazon: baseline to now"><span class="price">$118.99<small>Baseline Nov 1: $118.99, unchanged today</small></span></td>
+          <td data-label="AliExpress now"><span class="price ali">$84 and up<small>Third-party only, no official store. Older V2.2 units, clone warnings apply</small></span></td>
+          <td data-label="Predicted best"><span class="price predicted">~$116.99<small>A small early-November step, if anything</small></span><span class="delta neutral">About $2 under now</span></td>
+          <td class="cell-tip" data-label="Top tip"><p class="tip" style="margin:0"><strong>Watch early November, not Black Friday.</strong> Its only November moves ever were $1 to $3 steps set on Nov 8 and Nov 18, before the window, then held flat.</p></td>
+        </tr>
+
+        <!-- F V2 -->
+        <tr data-cat="flat import" data-search="nanovna-f v2 fv2 sysjoint seesii">
+          <td class="cell-model" data-label="Model">
+            <div class="model-name">NanoVNA-F V2</div>
+            <div class="model-sub">SYSJOINT, metal case, to 3 GHz</div>
+            <span class="badge import">Check AliExpress</span> <span class="badge flat">Flat on Amazon</span>
+          </td>
+          <td data-label="All-time low"><span class="price">$118.99<small>Mar 25, 2025 (Amazon)</small></span></td>
+          <td data-label="Amazon: baseline to now"><span class="price">$125.90<small>Baseline Nov 1: $125.90, unchanged today</small></span></td>
+          <td data-label="AliExpress now"><span class="price ali">~$89 to $103<small>Seesii store: $89.43. About $30 under Amazon, all year</small></span></td>
+          <td data-label="Predicted best"><span class="price predicted">$125.90<small>Flat again on Amazon</small></span><span class="delta neutral">No BF saving expected</span></td>
+          <td class="cell-tip" data-label="Top tip"><p class="tip" style="margin:0"><strong>Buy when you need it, or import it.</strong> Four straight flat Black Fridays and zero November drops on record. On Amazon, only buy under its all-time low of $118.99.</p></td>
+        </tr>
+
+        <!-- F V3 -->
+        <tr data-cat="flat import" data-search="nanovna-f v3 fv3 sysjoint">
+          <td class="cell-model" data-label="Model">
+            <div class="model-name">NanoVNA-F V3</div>
+            <div class="model-sub">SYSJOINT flagship, to 6 GHz</div>
+            <span class="badge import">Check AliExpress</span> <span class="badge flat">Flat on Amazon</span>
+          </td>
+          <td data-label="All-time low"><span class="price">$268.99<small>May 7, 2025 (Amazon)</small></span></td>
+          <td data-label="Amazon: baseline to now"><span class="price">$289.99<small>Baseline Nov 1: $289.99, unchanged today</small></span></td>
+          <td data-label="AliExpress now"><span class="price ali">~$213 to $288<small>TZT store: $213 to $222. Genuine units carry a serial SYSJOINT can verify</small></span></td>
+          <td data-label="Predicted best"><span class="price predicted">$289.99<small>Flat on Amazon</small></span><span class="delta neutral">No BF saving expected</span></td>
+          <td class="cell-tip" data-label="Top tip"><p class="tip" style="margin:0"><strong>Same play as the F V2, with a listing check.</strong> Prefer the Seesii listing on Amazon: the AURSINC listing had no offer for most of Feb to Sep 2026. The import gap is wide enough to survive duty.</p></td>
+        </tr>
+
+        <!-- Lite 62 -->
+        <tr data-cat="import" data-search="litevna 62 zeenko">
+          <td class="cell-model" data-label="Model">
+            <div class="model-name">LiteVNA 62</div>
+            <div class="model-sub">Zeenko, 50 kHz to 6.3 GHz</div>
+            <span class="badge import">11.11 is its sale</span>
+          </td>
+          <td data-label="All-time low"><span class="price">No record<small>No verifiable Amazon history</small></span></td>
+          <td data-label="Amazon: baseline to now"><span class="price">No real listing<small>Only Amazon print is a $737 gouge listing. Ignore it. Street price about $197</small></span></td>
+          <td data-label="AliExpress now"><span class="price ali">$197<small>Zeenko storefront. This is simply the channel for this model</small></span></td>
+          <td data-label="Predicted best"><span class="price predicted">11.11 pricing<small>Zeenko on AliExpress, live now</small></span></td>
+          <td class="cell-tip" data-label="Top tip"><p class="tip" style="margin:0"><strong>Its sale is this week, not Black Friday.</strong> Singles Day runs Nov 11 to 18 on AliExpress. Price the landed cost with shipping and duty before you buy.</p></td>
+        </tr>
+
+        <!-- Lite 64 -->
+        <tr data-cat="watch" data-search="litevna 64 zeenko">
+          <td class="cell-model" data-label="Model">
+            <div class="model-name">LiteVNA 64</div>
+            <div class="model-sub">Zeenko, 50 kHz to 6.3 GHz, 3.95-inch</div>
+            <span class="badge best">★ Best BF watch</span>
+          </td>
+          <td data-label="All-time low"><span class="price">$135.20<small>Nov 21, 2025, inside the BF window, but a flicker (longest hold 2.1 days)</small></span></td>
+          <td data-label="Amazon: baseline to now"><span class="price">$189.00<small>Baseline Nov 1: $189.00, unchanged today. Up from $179 baseline in 2025</small></span></td>
+          <td data-label="AliExpress now"><span class="price ali">~$190 to $300<small>Zeenko mirrors. EU dealers about $215 to $220. Import no longer beats Amazon</small></span></td>
+          <td data-label="Predicted best"><span class="price predicted">$135 to $160 flicker<small>Best sustained price to expect: $169</small></span><span class="delta big">Save $20 to $54</span></td>
+          <td class="cell-tip" data-label="Top tip"><p class="tip" style="margin:0"><strong>The one model worth watching, Nov 20 to 22.</strong> Buy at $169 or under without waiting, that price held 6+ days in 2025 after being set Nov 7. Chasing the $135 flicker is optional and needs price alerts.</p></td>
+        </tr>
+
+        <!-- Lite 67 -->
+        <tr data-cat="import" data-search="litevna 67 zeenko">
+          <td class="cell-model" data-label="Model">
+            <div class="model-name">LiteVNA 67</div>
+            <div class="model-sub">Newest LiteVNA, launched Jul 2026</div>
+            <span class="badge import">Biggest import gap</span>
+          </td>
+          <td data-label="All-time low"><span class="price">$499.99<small>Nov 10, 2026, its first Amazon print (listing is days old)</small></span></td>
+          <td data-label="Amazon: baseline to now"><span class="price">$499.99<small>No Nov 1 baseline, listing did not exist yet. EU dealers: €366.54</small></span></td>
+          <td data-label="AliExpress now"><span class="price ali">~$210 to $240<small>One storefront printed about $213 under an 11.11 banner</small></span></td>
+          <td data-label="Predicted best"><span class="price predicted">11.11 pricing<small>Likely well under Amazon via Zeenko</small></span><span class="delta big">Gap: about $260 to $290</span></td>
+          <td class="cell-tip" data-label="Top tip"><p class="tip" style="margin:0"><strong>Do not pay the new-listing premium.</strong> Compare Zeenko&rsquo;s landed price on AliExpress first. Like the 62, its season is 11.11, not Black Friday, and a new model launch has not historically discounted the older LiteVNAs either.</p></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="empty" id="empty">No models match that filter. Try clearing the search or picking a different filter above.</div>
+
+  <section class="insights" aria-label="Three takeaways">
+    <div class="insight">
+      <h4>Best prices happen nowhere near Black Friday</h4>
+      <p>For the models tracked through 2025, every all-time Amazon low landed in January to June, except the LiteVNA 64&rsquo;s November flicker. The LiteVNA 62 has no Amazon record, and the 67&rsquo;s only print is its Nov 10, 2026 launch listing. Chasing the calendar is the wrong strategy for this family.</p>
+    </div>
+    <div class="insight">
+      <h4>November moves happen early</h4>
+      <p>The SAA-2N stepped down on Nov 8 and Nov 18 in past years. The LiteVNA 64 stepped to $169 on Nov 7 last year. If you watch prices, watch early to mid November, then only flicker-watch during the window.</p>
+    </div>
+    <div class="insight">
+      <h4>The import discount now depends on the model</h4>
+      <p>In the duty era the AliExpress gap has closed to nothing on the H and the LiteVNA 64, sits at about $30 on the F V2, and is still enormous on the F V3 and LiteVNA 67. Check both channels, every time.</p>
+    </div>
+  </section>
+
+  <footer class="footnotes">
+    <p><b>* H4 all-time low:</b> $47.99 printed once, Feb 3, 2024, on an AURSINC listing that later went dark for over a year. On listings you can buy today, the deepest prints are the 2025 flickers at $64.78 (old Seesii listing) and $79.99 (new Seesii listing).</p>
+    <p><b>Amazon prices:</b> lowest new marketplace offer, Keepa history. Baseline is the price in effect Nov 1, 2026. Current is Nov 16, 2026. A flicker is a material low (5% or more under baseline) that never held 3 straight days.</p>
+    <p><b>AliExpress prices:</b> listing prices found Nov 16, 2026, with the 11.11 sale (Nov 11 to 18) running, before shipping and US duty. They churn by seller, so treat them as today&rsquo;s shelf prices, not tracked history like the Amazon columns.</p>
+    <p><b>Caveat:</b> the tariff truce lapsed around Oct 30, 2026. If a snapback raised import costs, baselines could sit 5 to 15% higher and the dollar predictions would fail upward, while the percent-off logic still holds. Always price the landed cost on imports.</p>
+  </footer>
+
+</div>
+<script>
+(function(){
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
+  var rows = Array.prototype.slice.call(document.querySelectorAll('#tbody tr'));
+  var q = document.getElementById('q');
+  var count = document.getElementById('count');
+  var empty = document.getElementById('empty');
+  var active = 'all';
+  function apply(){
+    var term = (q.value || '').trim().toLowerCase();
+    var visible = 0;
+    rows.forEach(function(r){
+      var catOk = active === 'all' || (r.getAttribute('data-cat') || '').split(' ').indexOf(active) !== -1;
+      var searchOk = !term || (r.getAttribute('data-search') || '').toLowerCase().indexOf(term) !== -1 || r.textContent.toLowerCase().indexOf(term) !== -1;
+      var show = catOk && searchOk;
+      r.style.display = show ? '' : 'none';
+      if(show) visible++;
+    });
+    count.textContent = visible + (visible === 1 ? ' model' : ' models');
+    empty.classList.toggle('show', visible === 0);
+  }
+  chips.forEach(function(c){
+    c.addEventListener('click', function(){
+      chips.forEach(function(x){ x.setAttribute('aria-pressed','false'); });
+      c.setAttribute('aria-pressed','true');
+      active = c.getAttribute('data-filter');
+      apply();
+    });
+  });
+  q.addEventListener('input', apply);
+})();
+</script>
+</body>
+</html>
